@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delta Key Bypasser</title>
+  <style>
+    body { font-family: system-ui; background: #0a0a0a; color: #0f0; text-align: center; padding: 40px; }
+    input { width: 90%; max-width: 700px; padding: 15px; font-size: 16px; background: #1f1f1f; border: 2px solid #0f0; color: white; border-radius: 8px; }
+    button { padding: 14px 30px; font-size: 18px; background: #0f0; color: black; border: none; border-radius: 8px; margin: 15px; cursor: pointer; }
+    button:hover { background: #0c0; }
+    #result { margin-top: 30px; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto; }
+    .link { color: #0ff; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>🔑 Delta Executor Key Bypasser</h1>
+  <p>Paste your auth.platorelay.com link below</p>
+
+  <input type="text" id="urlInput" placeholder="https://auth.platorelay.com/a?d=..." style="width:90%;max-width:700px;">
+  <br>
+  <button onclick="bypass()">Bypass Now</button>
+
+  <div id="result"></div>
+
+  <script>
+    async function bypass() {
+      const url = document.getElementById('urlInput').value.trim();
+      const result = document.getElementById('result');
+      result.innerHTML = '<p>Processing...</p>';
+
+      if (!url) return result.innerHTML = '<p style="color:red">Enter a link first!</p>';
+
+      try {
+        const res = await fetch('/bypass', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          let html = `<p style="color:#0f0">✅ Here are working bypass options:</p>`;
+          data.bypassOptions.forEach((link, i) => {
+            html += `<p><a href="${link}" target="_blank" class="link">Option ${i+1}: Open Bypass Service →</a></p>`;
+          });
+          html += `<p><small>Tip: keybypass.net and bypass.city usually work best for Platoboost in 2026.</small></p>`;
+          result.innerHTML = html;
+        }
+      } catch (e) {
+        result.innerHTML = `<p style="color:orange">Server error. Try opening one of these directly:<br>
+          <a href="https://keybypass.net/?url=${encodeURIComponent(url)}" target="_blank">keybypass.net</a></p>`;
+      }
+    }
+  </script>
+</body>
+</html>
