@@ -11,17 +11,8 @@
       color: #00ff9d;
       text-align: center;
       padding: 40px 20px;
-      margin: 0;
     }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-    p {
-      color: #aaa;
-      max-width: 600px;
-      margin: 0 auto 20px;
-    }
+    h1 { font-size: 2.5rem; margin-bottom: 10px; }
     input {
       width: 90%;
       max-width: 700px;
@@ -31,118 +22,99 @@
       border: 2px solid #00ff9d;
       color: white;
       border-radius: 12px;
-      margin-bottom: 20px;
+      margin: 20px 0;
     }
     button {
       background: #00ff9d;
       color: black;
       border: none;
-      padding: 16px 32px;
-      font-size: 18px;
+      padding: 16px 40px;
+      font-size: 19px;
       font-weight: bold;
       border-radius: 12px;
       cursor: pointer;
       margin: 10px;
     }
-    button:hover {
-      background: #00cc7a;
-    }
+    button:hover { background: #00cc7a; }
     #result {
       margin-top: 30px;
       padding: 20px;
       background: #1a1a1a;
       border-radius: 12px;
-      min-height: 120px;
+      min-height: 100px;
       text-align: left;
       max-width: 700px;
       margin-left: auto;
       margin-right: auto;
-      word-break: break-all;
     }
     .key {
-      font-size: 1.4rem;
-      color: #00ff9d;
       background: #112211;
       padding: 12px;
       border-radius: 8px;
-      margin: 15px 0;
-      display: inline-block;
+      font-size: 1.3rem;
+      word-break: break-all;
     }
     .copy-btn {
       background: #333;
       color: #00ff9d;
-      padding: 8px 16px;
       border: 1px solid #00ff9d;
+      padding: 8px 16px;
       border-radius: 6px;
       cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <h1>🔑 Delta Key Bypasser</h1>
-  <p>Paste your auth.platorelay.com link → Get key in fastest time</p>
+  <h1>🔑 My Delta Key Bypasser</h1>
+  <p>Paste your auth.platorelay.com link</p>
 
-  <input type="text" id="urlInput" placeholder="https://auth.platorelay.com/a?d=..." autocomplete="off">
+  <input type="text" id="urlInput" placeholder="https://auth.platorelay.com/a?d=..." value="https://auth.platorelay.com/a?d=cGoF8KlVvrXRCSTWZRk6bWVccXGxljechLPLS08sRWONLtHdzOTOEMa27xaoetPAba2KR4PW1fi7KOjzEmaUlQ44zSu4fTJ0fRNVOigM7SSM56FErRrRanMIO07WN3FPYttOpsHSk8T44GRF7AZzQHTXs3Qm8rnMcCpeh2dswfBHcJx5XgXJOFso9QuMYnpmkvOPcJulLryl1lXfJnPWgA8RYeBj5U7mc9n37NyrhvfRyZDeImeof6Y1ECKAwvsJaGSFloXKfDQS4JNr4idTPUdztwDKbSauHLORUYLLyJO9WuPqh8iBsKS4U5fCb7s1AdBVm7X4ZxB8ppFtSyxg9FDuYjODiZ3Ojp5gv4vC0DMxXO7iziCkkqA7MT8OAJcD4whPG6lXGQrWTIcYxbbzVEH1KEbIvC7VoJ4MQwfyZSMsOoAlXSbS6u0SjUxHDt">
 
-  <button onclick="startBypass()">Bypass & Get Key</button>
+  <button onclick="startBypass()">Get My Key</button>
 
   <div id="result"></div>
 
   <script>
     async function startBypass() {
-      const input = document.getElementById('urlInput').value.trim();
-      const resultDiv = document.getElementById('result');
-      
-      if (!input) {
-        resultDiv.innerHTML = '<p style="color:red">Please paste the link first</p>';
+      const url = document.getElementById('urlInput').value.trim();
+      const result = document.getElementById('result');
+      result.innerHTML = '<p>⚡ Trying to bypass...</p>';
+
+      if (!url) {
+        result.innerHTML = '<p style="color:red">Paste the link first</p>';
         return;
       }
-
-      resultDiv.innerHTML = '<p>⚡ Bypassing as fast as possible...</p>';
 
       try {
         const res = await fetch('/bypass', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: input })
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({url})
         });
-
         const data = await res.json();
 
-        if (data.success) {
-          let html = `<p style="color:#00ff9d">✅ Fastest bypass options:</p>`;
-          
-          data.bypassLinks.forEach((link, i) => {
-            html += `
-              <p>
-                <a href="${link}" target="_blank" style="color:#00ff9d; font-size:18px;">
-                  → Option ${i+1}: Open Fast Bypasser
-                </a>
-              </p>`;
-          });
-
-          html += `
-            <p style="margin-top:25px; color:#aaa">
-              After opening, complete any quick step if asked.<br>
-              The key will appear in format: <strong>FREE_****************</strong>
-            </p>`;
-
-          resultDiv.innerHTML = html;
-        }
-      } catch (e) {
-        resultDiv.innerHTML = `
-          <p style="color:orange">Server busy. Try this directly (fastest right now):</p>
-          <a href="https://keybypass.net/?url=${encodeURIComponent(input)}" target="_blank" style="color:#00ff9d; font-size:20px;">
-            👉 Open KeyBypass.net (Recommended)
+        result.innerHTML = `
+          <p style="color:#00ff9d">${data.message || 'Processing done'}</p>
+          <p><strong>Note:</strong> Full auto key extraction is blocked by Platoboost right now.</p>
+          <p>Try this manual fast way (works best):</p>
+          <a href="https://keybypass.net/?url=${encodeURIComponent(url)}" target="_blank" style="color:#00ff9d; font-size:18px;">
+            👉 Open Fast Bypasser (Recommended)
           </a>
+          <p style="margin-top:20px; color:#aaa">When you get the key (FREE_xxxxxxxx), copy it here:</p>
+          <div class="key" id="keyPlaceholder">FREE_****************</div>
+          <button class="copy-btn" onclick="copyKey()">Copy Key</button>
         `;
+      } catch(e) {
+        result.innerHTML = '<p style="color:orange">Error. Use the link above.</p>';
       }
     }
 
-    // Press Enter to bypass
-    document.getElementById('urlInput').addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') startBypass();
-    });
+    function copyKey() {
+      const keyText = "FREE_****************"; // replace manually when you have real key
+      navigator.clipboard.writeText(keyText).then(() => {
+        alert("Key copied!");
+      });
+    }
   </script>
 </body>
 </html>
